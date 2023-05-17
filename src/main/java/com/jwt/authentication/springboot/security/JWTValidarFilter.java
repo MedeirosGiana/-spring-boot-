@@ -17,23 +17,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class JWTValidarFilter extends BasicAuthenticationFilter {
-    public static final String HEADER_ATRIBUTO = "Authentication";
-    public static final String ATRIBUTO_PREFIXO = "Bearer ";
+    public static final String HEADER_ATRIBUTO = "Authorization";//atributo do cabeçalho
+    public static final String ATRIBUTO_PREFIXO = "Bearer ";//atributo do prefixo
 
     public JWTValidarFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
     }
 
-    @Override
+    @Override //método para interceptar o cabeçalho da requisição
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain chain) throws IOException, ServletException {
-        String atributo = request.getHeader(HEADER_ATRIBUTO);
-        if (atributo == null){
+        String atributo = request.getHeader(HEADER_ATRIBUTO); //para procurar no cabeçalho o atributo autorization
+        if (atributo == null){//verificando se o atributo é nulo
             chain.doFilter(request,response);
             return;
         }
-        if (!atributo.startsWith(ATRIBUTO_PREFIXO)) {
+        if (!atributo.startsWith(ATRIBUTO_PREFIXO)) {//verificando se possui o prefixo informando o tipo do token
             chain.doFilter(request,response);
             return;
         }
@@ -43,7 +43,8 @@ public class JWTValidarFilter extends BasicAuthenticationFilter {
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         chain.doFilter(request,response);
     }
-    //interpretação do token:
+
+    //interpretação do token: faz a leitura do token e retorna os dados do usuário para garantir que é um usuario válido
     private UsernamePasswordAuthenticationToken getAuthenticationToken(String token){
         String usuario = JWT.require(Algorithm.HMAC512(JWTAutenticarFilter.SPRING_SECURITY_FORM_PASSWORD_KEY))
                 .build()
