@@ -6,6 +6,7 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 public class JWTValidarFilter extends BasicAuthenticationFilter {
     public static final String HEADER_ATRIBUTO = "Authorization";//atributo do cabeçalho
     public static final String ATRIBUTO_PREFIXO = "Bearer ";//atributo do prefixo
+    private static final AuthenticationManager authenticationManager = null;
 
     public JWTValidarFilter() {
         super(authenticationManager);

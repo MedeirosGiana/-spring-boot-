@@ -22,7 +22,7 @@ import java.util.Date;
 public class JWTAutenticarFilter extends UsernamePasswordAuthenticationFilter {
     private static final int TOKEN_EXPIRACAO = 600_000;
     private static final String TOKEN_SENHA = "";
-    private final AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager = null;
 
     public JWTAutenticarFilter() {
         this.authenticationManager = authenticationManager;
