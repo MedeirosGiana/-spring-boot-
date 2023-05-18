@@ -15,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,7 +24,7 @@ public class JWTAutenticarFilter extends UsernamePasswordAuthenticationFilter {
     private static final String TOKEN_SENHA = "";
     private final AuthenticationManager authenticationManager;
 
-    public JWTAutenticarFilter(AuthenticationManager authenticationManager) {
+    public JWTAutenticarFilter() {
         this.authenticationManager = authenticationManager;
     }
 
