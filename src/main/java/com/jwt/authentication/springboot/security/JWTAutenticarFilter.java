@@ -5,27 +5,27 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jwt.authentication.springboot.data.DetalheUsuarioData;
 import com.jwt.authentication.springboot.model.UsuarioModel;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class JWTAutenticarFilter extends UsernamePasswordAuthenticationFilter {
     private static final int TOKEN_EXPIRACAO = 600_000;
-    private static final String TOKEN_SENHA = "";
-    private AuthenticationManager authenticationManager = null;
+    private static final String TOKEN_SENHA = " ";
+    private AuthenticationManager authenticationManager;
 
-    public JWTAutenticarFilter() {
-        this.authenticationManager = authenticationManager;
+    public JWTAutenticarFilter(AuthenticationManager authenticationManager) {
+        this.authenticationManager = this.authenticationManager;
     }
 
     @Override//processo de autenticação do usuario

@@ -2,16 +2,19 @@ package com.jwt.authentication.springboot.security;
 
 import com.jwt.authentication.springboot.services.DetalheUsuarioServiceImpl;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-public class JWTConfiguracao extends WebSecurityConfiguration {
+@EnableWebSecurity
+public class JWTConfiguracao extends WebSecurityConfigurerAdapter {
 
     private final DetalheUsuarioServiceImpl detalheUsuarioService;
     private final PasswordEncoder passwordEncoder;
@@ -25,10 +28,12 @@ public class JWTConfiguracao extends WebSecurityConfiguration {
         auth.userDetailsService(detalheUsuarioService).passwordEncoder(passwordEncoder);
     }
     protected  void  configure(HttpSecurity http) throws Exception{
-        http.csrf().disable().authorizeHttpRequests().anyRequest()
-                .authenticated().and()
-                .addFilter(new JWTAutenticarFilter())
-                .addFilter(new JWTValidarFilter())
+        http.csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .addFilter(new JWTAutenticarFilter(authenticationManager()))
+                .addFilter(new JWTValidarFilter(authenticationManager()))
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
 
